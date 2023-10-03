@@ -9,22 +9,22 @@ export const AllFilms = () => {
 
     const [modalIsOpen, setIsOpen] = useState(false);
 
-    const [singeFilmData, setSingeFilmData] = useState()
+    const [singleFilmData, setSingleFilmData] = useState()
 
     Modal.setAppElement('#root');
 
     const customStyles = {
         content: {
-          top: '50%',
-          left: '50%',
-          right: 'auto',
-          bottom: 'auto',
-          marginRight: '-50%',
-          transform: 'translate(-50%, -50%)',
+            top: '50%',
+            left: '50%',
+            right: 'auto',
+            bottom: 'auto',
+            marginRight: '-50%',
+            transform: 'translate(-50%, -50%)',
         },
-      };
+    };
 
-    const { data, isLoading, error} = useQuery({
+    const { data, isLoading, error } = useQuery({
         queryKey: ['getStarWarsFilms'],
         queryFn: async () => request(`https://swapi-graphql.netlify.app/.netlify/functions/index`, getFilms)
     })
@@ -40,7 +40,7 @@ export const AllFilms = () => {
             <div className={style.filmsContainer}>
                 {data.allFilms.films.map((item, index) => {
                     return (
-                        <h2 key={index} onClick={() => { setSingeFilmData(item), setIsOpen(true) }}>{item.title}</h2>
+                        <h2 key={index} onClick={() => { setSingleFilmData(item), setIsOpen(true) }}>{item.title}</h2>
                     )
                 })}
             </div>
@@ -50,9 +50,9 @@ export const AllFilms = () => {
                 className={style.modal}
                 overlayClassName={style.modalOverlay}>
                 <div className={style.modalContentContainer}>
-                    <h2>{singeFilmData?.title}</h2>
-                    <p>Release date: {singeFilmData?.releaseDate}</p>
-                    <p>{singeFilmData?.openingCrawl}</p>
+                    <h2>{singleFilmData?.title}</h2>
+                    <p>Release date: {singleFilmData?.releaseDate}</p>
+                    <p>{singleFilmData?.openingCrawl}</p>
                 </div>
                 <button onClick={() => setIsOpen(false)}>Close</button>
             </Modal>
