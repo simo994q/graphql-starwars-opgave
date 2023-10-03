@@ -7,8 +7,16 @@ export const Header = () => {
             <div className={style.headerContainer}>
                 <img src="/Star_Wars_Logo.svg.png" alt="" />
                 <ul>
-                    <li><NavLink to='/'>All Films</NavLink></li>
-                    <li><NavLink to='/characters'>All Characters</NavLink></li>
+                    <li><NavLink to='/' style={({ isActive }) => {
+                        return {
+                            color: isActive ? "yellow" : "white",
+                        };
+                    }}>All Films</NavLink></li>
+                    <li><NavLink to='/characters' style={({ isActive }) => {
+                        return {
+                            color: isActive ? "yellow" : "white",
+                        };
+                    }}>All Characters</NavLink></li>
                 </ul>
             </div>
 
