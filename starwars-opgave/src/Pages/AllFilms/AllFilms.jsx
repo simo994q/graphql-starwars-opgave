@@ -1,22 +1,33 @@
 import { useQuery } from "@tanstack/react-query"
 import { getFilms } from "../../queries/getFilms.js"
 import { request } from 'graphql-request'
-
 import style from './AllFilms.module.scss'
 import { useState } from "react"
-import { ModalContent } from "../../Layout/Modal/ModalContent.jsx"
 import Modal from 'react-modal';
 
 export const AllFilms = () => {
 
     const [modalIsOpen, setIsOpen] = useState(false);
 
-    const { data, isLoading, error } = useQuery({
+    const [singeFilmData, setSingeFilmData] = useState()
+
+    Modal.setAppElement('#root');
+
+    const customStyles = {
+        content: {
+          top: '50%',
+          left: '50%',
+          right: 'auto',
+          bottom: 'auto',
+          marginRight: '-50%',
+          transform: 'translate(-50%, -50%)',
+        },
+      };
+
+    const { data, isLoading, error} = useQuery({
         queryKey: ['getStarWarsFilms'],
         queryFn: async () => request(`https://swapi-graphql.netlify.app/.netlify/functions/index`, getFilms)
     })
-
-    const [filmId, setFilmId] = useState()
 
     console.log(data);
 
@@ -29,13 +40,21 @@ export const AllFilms = () => {
             <div className={style.filmsContainer}>
                 {data.allFilms.films.map((item, index) => {
                     return (
-                        <p key={index} onClick={() => {setFilmId(item.id), setIsOpen(true)}}>{item.title}</p>
+                        <h2 key={index} onClick={() => { setSingeFilmData(item), setIsOpen(true) }}>{item.title}</h2>
                     )
                 })}
             </div>
             <Modal
-            isOpen={modalIsOpen}>
-                <ModalContent filmId={filmId} />
+                isOpen={modalIsOpen}
+                style={customStyles}
+                className={style.modal}
+                overlayClassName={style.modalOverlay}>
+                <div className={style.modalContentContainer}>
+                    <h2>{singeFilmData?.title}</h2>
+                    <p>Release date: {singeFilmData?.releaseDate}</p>
+                    <p>{singeFilmData?.openingCrawl}</p>
+                </div>
+                <button onClick={() => setIsOpen(false)}>Close</button>
             </Modal>
         </>
     )

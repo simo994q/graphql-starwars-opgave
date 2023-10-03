@@ -13,3 +13,10 @@ body {
     min-height: 100vh;
     background-color: #202020;
 }
+
+#root {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    min-height: 100vh;
+}

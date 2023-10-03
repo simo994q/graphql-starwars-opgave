@@ -1,7 +1,65 @@
-
-
 .filmsContainer {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     place-items: center;
+    row-gap: 24px;
+
+    h2 {
+        cursor: pointer;
+        font-size: 22px;
+    }
+
+    h2:hover {
+        text-decoration: underline;
+    }
+}
+
+.modal {
+    position: absolute;
+    top: 40px;
+    left: 40px;
+    right: 40px;
+    bottom: 40px;
+    background-color: #222222;
+    border-radius: 10px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    max-width: 500px;
+
+    .modalContentContainer {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+
+        h2 {
+            font-size: 24px;
+        }
+
+        p  {
+            font-size: 18px;
+        }
+    }
+
+    button {
+        background-color: black;
+        border: none;
+        outline: none;
+        border-radius: 4px;
+        font-size: 16px;
+        padding: 6px;
+        max-width: 60px;
+        cursor: pointer;
+    }
+}
+
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #00000080;
 }

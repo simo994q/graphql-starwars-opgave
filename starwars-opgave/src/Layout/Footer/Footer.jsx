@@ -4,7 +4,7 @@ export const Footer = () => {
     return (
         <>
             <div className={style.footerContainer}>
-                footer
+                <p>Lavet af Simon</p>
             </div>
         </>
     )
