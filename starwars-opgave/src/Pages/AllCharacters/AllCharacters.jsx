@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query"
 import { getCharacters } from "../../queries/getCharacters.js"
 import { request } from 'graphql-request'
 import style from './AllCharacters.module.scss'
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Modal from 'react-modal';
 
 export const AllCharacters = () => {
@@ -41,41 +41,46 @@ export const AllCharacters = () => {
         setSearchData(result)
     }
 
+    useEffect(() => {
+        if (inputText == '') {
+            setSearchData()
+        }
+    }, [inputText])
 
-if (isLoading) return <p>Loading...</p>
+    if (isLoading) return <p>Loading...</p>
 
-if (error) return <p>Error: {error.message}</p>
+    if (error) return <p>Error: {error.message}</p>
 
-return (
-    <>
-        <div>
-            <input type="text" onChange={(e) => setInputText(e.target.value)} placeholder="Search" style={{ fontSize: '24px', width: '300px', color: 'black' }} />
-            <button onClick={() => search()} style={{ fontSize: '24px', width: '300px', backgroundColor: 'black' }}>Search</button>
-        </div>
-        <div className={style.charactersContainer}>
-            {!searchData ? data.allPeople.people.map((item, index) => {
-                return (
-                    <h2 key={index} onClick={() => { setSingleCharacterData(item), setIsOpen(true) }}>{item.name}</h2>
-                )
-            }) : searchData.map((item, index) => {
-                return (
-                    <h2 key={index} onClick={() => { setSingleCharacterData(item), setIsOpen(true) }}>{item.name}</h2>
-                )
-            })}
-        </div>
-        <Modal
-            isOpen={modalIsOpen}
-            style={customStyles}
-            className={style.modal}
-            overlayClassName={style.modalOverlay}>
-            <div className={style.modalContentContainer}>
-                <h2>{singleCharacterData?.name}</h2>
-                <p>Birth year: {singleCharacterData?.birthYear}</p>
-                <p>Species: {singleCharacterData?.species ? singleCharacterData?.species.name : 'Human'}</p>
-                <p>Homeworld: {singleCharacterData?.homeworld.name}</p>
+    return (
+        <>
+            <div>
+                <input type="text" onChange={(e) => setInputText(e.target.value)} placeholder="Search" style={{ fontSize: '24px', width: '300px', color: 'black' }} />
+                <button onClick={() => search()} style={{ fontSize: '24px', width: '300px', backgroundColor: 'black' }}>Search</button>
             </div>
-            <button onClick={() => setIsOpen(false)}>Close</button>
-        </Modal>
-    </>
-)
+            <div className={style.charactersContainer}>
+                {!searchData ? data.allPeople.people.map((item, index) => {
+                    return (
+                        <h2 key={index} onClick={() => { setSingleCharacterData(item), setIsOpen(true) }}>{item.name}</h2>
+                    )
+                }) : searchData.map((item, index) => {
+                    return (
+                        <h2 key={index} onClick={() => { setSingleCharacterData(item), setIsOpen(true) }}>{item.name}</h2>
+                    )
+                })}
+            </div>
+            <Modal
+                isOpen={modalIsOpen}
+                style={customStyles}
+                className={style.modal}
+                overlayClassName={style.modalOverlay}>
+                <div className={style.modalContentContainer}>
+                    <h2>{singleCharacterData?.name}</h2>
+                    <p>Birth year: {singleCharacterData?.birthYear}</p>
+                    <p>Species: {singleCharacterData?.species ? singleCharacterData?.species.name : 'Human'}</p>
+                    <p>Homeworld: {singleCharacterData?.homeworld.name}</p>
+                </div>
+                <button onClick={() => setIsOpen(false)}>Close</button>
+            </Modal>
+        </>
+    )
 }
